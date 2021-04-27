@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# For MacOS or Unix systems only. Cannot run on a Windows machine.
+# For MacOS systems only. Cannot run on a Windows machine.
 
 from colorama import init, Fore
 from datetime import datetime
