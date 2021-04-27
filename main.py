@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# For MacOS or Unix systems only. Cannot run on a Windows machine.
+
 from colorama import init, Fore
 from datetime import datetime
 from sys import exit
@@ -44,7 +46,8 @@ class Coffee:
     @classmethod
     def ask(self):
         print(self.time() + ' > ', end = '')
-        self.q = input()
+        self.q = input(Fore.BLUE)
+        print(Fore.RESET)
         self.invoke()
     
     @classmethod
@@ -62,10 +65,10 @@ class Coffee:
                 ip = self.q.split(' ')[1]
                 self.ip(ip)
             except IndexError:
-                print('\n Unknown schema, IP follows command with a space\n')
+                print(Fore.YELLOW + ' Unknown schema, IP follows command with a space\n')
                 self.ask()
             except Exception as ex:
-                print('\n An error occured\n')
+                print(Fore.RED + ' An error occured\n')
                 print(ex)
                 self.ask()
         elif 'ping' in self.q:
@@ -73,32 +76,31 @@ class Coffee:
                 ip = self.q.split(' ')[1]
                 self.ping(ip)
             except IndexError:
-                print('\n Unknown schema, IP follows command with a space\n')
+                print(Fore.YELLOW + ' Unknown schema, IP follows command with a space\n')
                 self.ask()
             except Exception as ex:
-                print('\n An error occured\n')
+                print(Fore.RED + ' An error occured\n')
                 print(ex)
                 self.ask()
         elif self.q == 'coffee':
-            print('\n☕️\n')
+            print('☕️\n')
         elif 'savewifi' in self.q:
             try:
                 mode = self.q.split(' ')[1]
                 self.saveWifi(mode)
             except IndexError:
-                print('\n Unknown schema, file type follows command with a space\n')
+                print(Fore.YELLOW + ' Unknown schema, file type follows command with a space\n')
                 self.ask()
             except Exception as ex:
-                print('\n An error occured\n')
+                print(Fore.RED + ' An error occured\n')
                 print(ex)
                 self.ask()
         else:
-            print('\n Unknown command entered\n')
+            print(Fore.RED + ' Unknown command entered\n')
             self.ask()
     
     @classmethod
     def help(self):
-        print('')
         print(' wifi - Get lots of info about current connected WiFi\n')
         print(' savewifi [json] [text] - Save WiFi information to json or text file\n')
         print(' ip [ip address] - Gets info about IP address provided\n')
@@ -116,7 +118,7 @@ class Coffee:
         
         info = info.decode(encoding='UTF-8')
 
-        print('\nWiFi Information:\n')
+        print('WiFi Information:\n')
         print(' WiFi Name: ' + info.split('\n')[12].split(':')[1].strip())
         print(' Security Type: ' + info.split('\n')[10].split(':')[1].strip())
         print(' Router MAC Address: ' + info.split('\n')[11].split('BSSID:')[1].strip())
@@ -132,7 +134,7 @@ class Coffee:
                 if key == None:
                     key = 'Not Available'
 
-            print('\nIP Information:\n')
+            print('IP Information:\n')
             print(' Current IP: ' + response['query'])
             print(' Country: ' + response['country'])
             print(' Region: ' + response['city'] + ', ' + response['region'])
@@ -155,7 +157,7 @@ class Coffee:
                 if key == None:
                     key = 'Not Available'
 
-            print('\nInformation for IP: ' + ip + ':\n')
+            print('Information for IP: ' + ip + ':\n')
             print(' Country: ' + response['country'])
             print(' Region: ' + response['city'] + ', ' + response['region'])
             print(' Zip Code: ' + response['zip'])
@@ -170,7 +172,6 @@ class Coffee:
     
     @classmethod
     def ping(self, ip):
-        print('')
         system('ping -c 5 ' + ip)
         print('')
     
@@ -212,7 +213,7 @@ class Coffee:
             with open('wifi.json', 'w') as f:
                 json.dump(data, f, indent = 4)
             
-            print('\nDone writing to ' + mode + ' file\n')
+            print(Fore.GREEN + ' Done writing to ' + mode + ' file\n')
             
         elif mode == 'text':
             with open('wifi.txt', 'w') as f:
@@ -230,9 +231,9 @@ class Coffee:
                 f.write('Latitude & Longitude: ' + str(response['lat']) + ', ' + str(response['lon']) + '\n')
                 f.write('Using Proxy? ' + str(response['proxy']))
 
-                print('\nDone writing to ' + mode + ' file\n')
+                print(Fore.GREEN + ' Done writing to ' + mode + ' file\n')
         else:
-            print('\n Unknown schema, file type follows command with a space\n')
+            print(' Unknown schema, file type follows command with a space\n')
  
 Coffee.start()
 
